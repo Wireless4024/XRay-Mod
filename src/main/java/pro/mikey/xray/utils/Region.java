@@ -7,21 +7,24 @@ import net.minecraft.core.Vec3i;
  */
 public class Region {
 
+	public int worldMinY;
 	public int minX, minY, minZ, maxX, maxY, maxZ;
 	public int minChunkX, minChunkY, minChunkZ, maxChunkX, maxChunkY, maxChunkZ;
 
 	/**
 	 * Constructs a world region from a player location and a radius.
-	 * Vertical extend is 92 blocks down and 32 blocks up
+	 * Vertical extend is 96 blocks down and 32 blocks up
 	 * @param pos a world position
 	 * @param radius a block radius
 	 */
-	public Region(Vec3i pos, int radius)
-	{
+	public Region(Vec3i pos, int radius, int worldMinY, int height)
+	{	
+		this.worldMinY = worldMinY;
+		
 		minX = pos.getX() - radius;
 		maxX = pos.getX() + radius;
-		minY = Math.max(0, pos.getY() - 32);
-		maxY = Math.min(255 + 64, pos.getY() + 92);
+		minY = Math.max(0, pos.getY() - 96 - worldMinY);
+		maxY = Math.min(height - 1, pos.getY() + 32 - worldMinY);
 		minZ = pos.getZ() - radius;
 		maxZ = pos.getZ() + radius;
 		minChunkX = minX >> 4;
